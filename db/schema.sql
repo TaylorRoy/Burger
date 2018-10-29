@@ -3,15 +3,17 @@
  use burger_db;
 
  CREATE TABLE burger (
-     id INT NOT NULL,
+     id INT NOT NULL AUTO_INCREMENT,
      burger_name VARCHAR(50) NOT NULL,
      devoured BOOLEAN,
      PRIMARY KEY(id)
  );
- 
- Create the `burgers_db`.
-   * Switch to or use the `burgers_db`.
-   * Create a `burgers` table with these fields:
-     * **id**: an auto incrementing int that serves as the primary key.
-     * **burger_name**: a string.
-     * **devoured**: a boolean.
+
+INSERT INTO burger (burger_name, devoured)
+VALUES ("chicken sandwich", false);
+
+INSERT INTO burger (burger_name, devoured)
+VALUES ("bacon burger", false);
+
+INSERT INTO burger (burger_name, devoured)
+VALUES ("veggie burger", false);

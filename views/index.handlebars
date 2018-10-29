@@ -1,0 +1,13 @@
+<h1>Burgers to Devour</h1>
+
+<ul>
+  {{#each toEat}}
+  <li>
+    <p>
+      {{this.id}}. {{this.burger_name}}
+
+      <button data-planid="{{this.id}}" class="devour">Devour!!!</button>
+    </p>
+  </li>
+  {{/each}}
+</ul>
