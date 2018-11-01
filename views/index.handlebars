@@ -1,13 +1,62 @@
 <h1>Burgers to Devour</h1>
 
 <ul>
-  {{#each toEat}}
-  <li>
-    <p>
-      {{this.id}}. {{this.burger_name}}
+    {{#each burger}}
+    <li>
+        <p>
+            {{this.id}}. {{this.burger_name}}
 
-      <button data-planid="{{this.id}}" class="devour">Devour!!!</button>
-    </p>
-  </li>
-  {{/each}}
+            <button data-planid="{{this.id}}" class="devour">Devour!!!</button>
+        </p>
+    </li>
+    {{/each}}
 </ul>
+
+<script>
+    $(".devour").on("click", function (event) {
+
+        alert("clicked")
+        // Get the ID from the button.
+        // This is shorthand for $(this).attr("data-planid")
+        var id = $(this).data("planid");
+
+        // Send the DELETE request.
+        $.ajax("/todos/" + id, {
+            type: "DELETE"
+        }).then(
+            function () {
+                console.log("deleted id ", id);
+                // Reload the page to get the updated list
+                location.reload();
+            }
+        );
+    });
+
+
+    $(".PLACEHOLDER").on("submit", function (event) {
+
+        console.log("button clicked")
+        // Make sure to preventDefault on a submit event.
+        event.preventDefault();
+        // Get the ID by finding an element with a "name" attribute equal to the string "id"
+        var id = $("[name=id]").val().trim();
+
+        var updatedPlan = {
+            burger: $(".devour [name=devoured]").val().trim()
+        };
+
+        // Send the PUT request.
+        $.ajax("/todos/" + id, {
+            type: "PUT",
+            data: updatedPlan
+        }).then(
+            function () {
+                console.log("updated id ", id);
+                // Reload the page to get the updated list
+                location.reload();
+            }
+        );
+    });
+
+
+</script>
