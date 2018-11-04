@@ -22,26 +22,12 @@ var burger = {
     orm.insertOne(name, devoured, function(res) {
       cb(res);
     });
+  },
+  updateOne: function(objColVals, condition, cb) {
+    orm.updateOne(objColVals, condition, function(res) {
+      cb(res);
+    });
   }
-},
-update: function(objColVals, condition, cb) {
-  orm.update("burger", objColVals, condition, function(res) {
-    cb(res);
-  });
+}
 
-
-// create: function(cols, vals, cb) {
-//   orm.create("cats", cols, vals, function(res) {
-//     cb(res);
-//   });
-// },
-// orm.selectAllUndevoured("burger", "devoured", 0, function(result){
-//     console.log(result);
-//   });
-
-//   //add burger with undevoured value 0
-//   orm.insertOne("guacamole burger", 0);
-
-//   //delete burger from db
-//   orm.deleteOne("burger", "burger_name", "bacon burger");
 module.exports = burger;

@@ -1,112 +1,136 @@
 <div class="toDevourDiv">
 
-<h1>Burgers to Devour</h1>
+    <h1>Burgers to Devour</h1>
 
-<ul>
-    {{#each burger}}
-    <li>
-        <p>
-            {{this.id}}. {{this.burger_name}}
+    <ul>
+        {{#each burger}}
+        <li>
+            <p>
+                {{this.id}}. {{this.burger_name}}
 
-            <button data-planid="{{this.id}}" class="devour">Devour!!!</button>
-        </p>
-    </li>
-    {{/each}}
-</ul>
+                <button data-planid="{{this.id}}" class="devourBtn">Devour!!!</button>
+            </p>
+        </li>
+        {{/each}}
+    </ul>
 </div>
 
 <div class="toDevourDiv">
 
-<h1>Devoured Burgbers</h1>
+    <h1>Devoured Burgers</h1>
 
-<ul>
-    {{#each eaten}}
-    <li>
-        <p>
-            {{this.id}}. {{this.burger_name}}
+    <ul>
+        {{#each eaten}}
+        <li>
+            <p>
+                {{this.id}}. {{this.burger_name}}
 
-            <button data-planid="{{this.id}}" class="delete">Delete</button>
-        </p>
-    </li>
-    {{/each}}
-</ul>
+                <button data-planid="{{this.id}}" class="delete">Delete</button>
+            </p>
+        </li>
+        {{/each}}
+    </ul>
 </div>
 
 <div class="form-group">
     <label for="ca">Enter a Burger You Want to Devour!:</label>
     <input type="text" id="addBurger" name="name">
-  </div>
+</div>
 
-  
-  <button class= "devourBurger" type="submit">Add Burger</button>
 
-<script>
-      $(document).on("click", ".devourBurger", function(event) {
-    // Make sure to preventDefault on a submit event.
-    alert("clicked");
-    event.preventDefault();
+<button class="addBurgerBtn" type="submit">Add Burger</button>
 
-    var newBurger = {
-      burger_name: $("#addBurger").val().trim(),
-      devoured: 0
-    };
-    console.log("newBurger", newBurger);
+<script type="text/javascript">
+    $(document).on("click", ".addBurgerBtn", function (event) {
+        // Make sure to preventDefault on a submit event.
+        alert("clicked");
+        event.preventDefault();
 
-    // Send the POST request.
-    $.ajax("/api/burger", {
-      type: "POST",
-      data: newBurger
-    }).then(
+        var newBurger = {
+            burger_name: $("#addBurger").val().trim(),
+            devoured: 0
+        };
+        console.log("newBurger", newBurger);
+
+        // Send the POST request.
+        $.ajax("/api/burger", {
+            type: "POST",
+            data: newBurger
+        }).then(
+            function () {
+                console.log("created new burger");
+                // Reload the page to get the updated list
+                location.reload();
+            }
+        );
+    });
+
+    $(document).on("click", ".devourBtn", function (event) {
+        alert("hit");
+
+        var id = $(this).data("planid");
+        var newDevoured = 1;
+
+        var newDevouredValue = {
+            devoured: newDevoured
+        };
+        console.log("id", id);
+        console.log("newDevoured", newDevoured)
+        // Send the PUT request.
+        $.ajax("/api/burger/" + id, {
+            type: "PUT",
+            data: newDevouredValue
+        }).then(
       function() {
-        console.log("created new burger");
+        console.log("changed devoured to", newDevoured);
         // Reload the page to get the updated list
         location.reload();
       }
     );
-  });
+    });
 
 </script>
 
-  {{!-- $(".devourBurger").on("click", function (event) {
+{{!-- $(".devourBurger").on("click", function (event) {
 
-        alert("devour button clicked")
-        // Get the ID from the button.
-        // This is shorthand for $(this).attr("data-planid")
-        var id = $(this).data("planid");
+alert("devour button clicked")
+// Get the ID from the button.
+// This is shorthand for $(this).attr("data-planid")
+var id = $(this).data("planid");
 
-        // Send the DELETE request.
-        $.ajax("/" + id, {
-            type: "DELETE"
-        }).then(
-            function () {
-                console.log("deleted id ", id);
-                // Reload the page to get the updated list
-                location.reload();
-            }
-        );
-    }); --}}
+// Send the DELETE request.
+$.ajax("/" + id, {
+type: "DELETE"
+}).then(
+function () {
+console.log("deleted id ", id);
+// Reload the page to get the updated list
+location.reload();
+}
+);
+}); --}}
 
-   {{!-- $(".PLACEHOLDER").on("submit", function (event) { --}}
+{{!-- $(".PLACEHOLDER").on("submit", function (event) { --}}
 
-        {{!-- console.log("button clicked")
-        // Make sure to preventDefault on a submit event.
-        event.preventDefault();
-        // Get the ID by finding an element with a "name" attribute equal to the string "id"
-        var id = $("[name=id]").val().trim();
+{{!-- console.log("button clicked")
+// Make sure to preventDefault on a submit event.
+event.preventDefault();
+// Get the ID by finding an element with a "name" attribute equal to the string "id"
+var id = $("[name=id]").val().trim();
 
-        var updatedPlan = {
-            burger: $(".devour [name=devoured]").val().trim()
-        };
+var updatedPlan = {
+burger: $(".devour [name=devoured]").val().trim()
+};
 
-        // Send the PUT request.
-        $.ajax("/todos/" + id, {
-            type: "PUT",
-            data: updatedPlan
-        }).then(
-            function () {
-                console.log("updated id ", id);
-                // Reload the page to get the updated list
-                location.reload();
-            }
-        );
-    }); --}}
+// Send the PUT request.
+$.ajax("/todos/" + id, {
+type: "PUT",
+data: updatedPlan
+}).then(
+function () {
+console.log("updated id ", id);
+// Reload the page to get the updated list
+location.reload();
+}
+);
+}); --}}

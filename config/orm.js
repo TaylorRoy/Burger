@@ -39,10 +39,11 @@ orm = {
         })
     },
 
-    updateOne: function(tableName, colName, colValue) {
-        var queryString = ("UPDATE ?? SET ?? WHERE= ?");
-        connection.query( queryString, [tableName, colName, value], function(error, result) {
+    updateOne: function(objColVals, condition, cb) {
+        var queryString = ("UPDATE burger SET devoured = 1 WHERE id = ?");
+        connection.query( queryString, [objColVals, condition], function(error, result) {
             if (error) throw error;
+            cb(result);
         })
     }
 }

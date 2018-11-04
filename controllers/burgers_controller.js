@@ -4,21 +4,19 @@ var router = express.Router();
 
 var burger = require("../models/burger.js");
 
-// Create the  for the app, and export the  at the end of your file.
-// Create the router for the app, and export the router at the end of your file.
-
+//gets undeovoured(value 0)
 router.get("/", function (req, res) {
   burger.selectAll(function (data) {
     res.render("index", { burger: data });
   });
 });
-
+//gets devoured(value 1)
 router.get("/", function (req, res) {
   burger.selectDevoured(function (data) {
     res.render("index", { eaten: data });
   });
 });
-
+//adds burgers to undevoured list
 router.post("/api/burger", function (req, res) {
   console.log("body", req.body);
   // console.log("res",res)
@@ -29,39 +27,27 @@ router.post("/api/burger", function (req, res) {
     });
 });
 
+router.put("/api/burger/:id", function (req, res) {
+  var condition = req.params.id;
 
-// // Delete a todo
-// router.delete("/todos/:id", function(req, res) {
-//     connection.query("DELETE FROM burger WHERE id = ?", [req.params.id], function(err, result) {
-//       if (err) {
-//         // If an error occurred, send a generic server failure
-//         return res.status(500).end();
-//       }
-//       else if (result.affectedRows === 0) {
-//         // If no rows were changed, then the ID must not exist, so 404
-//         return res.status(404).end();
-//       }
-//       res.status(200).end();
+  console.log("condition is here", condition);
+  console.log("devoured", req.body.devoured);
+  burger.updateOne(
+    {
+      devoured: req.body.devoured
+    },
+    condition, function (result) {
 
-//     });
-//   });
-
-
-// // Update a todo
-router.put("/todos/:id", function (req, res) {
-  connection.query("UPDATE burger SET devoured = ? WHERE id = ?", [req.body.plan, req.params.id], function (err, result) {
-    if (err) {
-      // If an error occurred, send a generic server failure
-      return res.status(500).end();
+      if (result.changedRows === 0) {
+        // If no rows were changed, then the ID must not exist, so 404
+        return res.status(404).end();
+      }
+      res.status(200).end();
     }
-    else if (result.changedRows === 0) {
-      // If no rows were changed, then the ID must not exist, so 404
-      return res.status(404).end();
-    }
-    console.log("id", id);
-    res.status(200).end();
-    res.render("index", { burger: data });
-  });
+  );
 });
 
+
 module.exports = router;
+
+
