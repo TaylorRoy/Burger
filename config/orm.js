@@ -12,13 +12,22 @@ orm = {
             cb(result);
         })
     },
+    selectDevoured: function (tableName, colName, colValue, cb) {
+        var queryString = ("SELECT * FROM ?? WHERE ?? = ?");
+        connection.query(queryString, [tableName, colName, colValue], function (error, result) {
+            if (error) throw error;
+            // console.log("Result ", result);
+            cb(result);
+        })
+    },
     // insert a burger into datebase
-    insertOne: function (burger_name, devoured) {
+    insertOne: function (burger_name, devoured, cb) {
         var queryString = ("INSERT INTO burger(burger_name, devoured) VALUES(?, ?)");
         connection.query(queryString, [burger_name, devoured], function (error, result) {
             if (error) throw error;
-            // console.log("Item added");
-            // console.log("added ", result);
+             console.log("Item added");
+             console.log("added ", result);
+            cb(result);
         })
     },
     deleteOne: function (tableName, colName, name) {
@@ -27,6 +36,13 @@ orm = {
             if (error) throw error;
             // console.log("Item deleted");
             // console.log("Deleted ", result)
+        })
+    },
+
+    updateOne: function(tableName, colName, colValue) {
+        var queryString = ("UPDATE ?? SET ?? WHERE= ?");
+        connection.query( queryString, [tableName, colName, value], function(error, result) {
+            if (error) throw error;
         })
     }
 }

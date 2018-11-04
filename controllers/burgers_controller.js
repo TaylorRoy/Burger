@@ -7,24 +7,28 @@ var burger = require("../models/burger.js");
 // Create the  for the app, and export the  at the end of your file.
 // Create the router for the app, and export the router at the end of your file.
 
-
-// router.get("/todo", function(req, res) {
-//     connection.query("SELECT * FROM burger;", function(err, data) {
-//       burg
-//       if (err) {
-//         return res.status(500).end();
-//       }
-
-//       res.render("index", { burger: data });
-//     });
-//   });
-
-  router.get("/todo", function(req, res) {
-    burger.selectAll(function(data) {
-      
-      res.render("index", {burger: data});
-    });
+router.get("/", function (req, res) {
+  burger.selectAll(function (data) {
+    res.render("index", { burger: data });
   });
+});
+
+router.get("/", function (req, res) {
+  burger.selectDevoured(function (data) {
+    res.render("index", { eaten: data });
+  });
+});
+
+router.post("/api/burger", function (req, res) {
+  console.log("body", req.body);
+  // console.log("res",res)
+  burger.addBurger(req.body.burger_name, 0,
+    function (result) {
+      // Send back the ID of the new quote
+      res.json({ id: result.insertId });
+    });
+});
+
 
 // // Delete a todo
 // router.delete("/todos/:id", function(req, res) {
@@ -44,20 +48,20 @@ var burger = require("../models/burger.js");
 
 
 // // Update a todo
-// router.put("/todos/:id", function(req, res) {
-//     connection.query("UPDATE burger SET devoured = ? WHERE id = ?", [req.body.plan, req.params.id], function(err, result) {
-//       if (err) {
-//         // If an error occurred, send a generic server failure
-//         return res.status(500).end();
-//       }
-//       else if (result.changedRows === 0) {
-//         // If no rows were changed, then the ID must not exist, so 404
-//         return res.status(404).end();
-//       }
-//       console.log("id",id);
-//       res.status(200).end();
-//       res.render("index", { burger: data });
-//     });
-//   });
+router.put("/todos/:id", function (req, res) {
+  connection.query("UPDATE burger SET devoured = ? WHERE id = ?", [req.body.plan, req.params.id], function (err, result) {
+    if (err) {
+      // If an error occurred, send a generic server failure
+      return res.status(500).end();
+    }
+    else if (result.changedRows === 0) {
+      // If no rows were changed, then the ID must not exist, so 404
+      return res.status(404).end();
+    }
+    console.log("id", id);
+    res.status(200).end();
+    res.render("index", { burger: data });
+  });
+});
 
-  module.exports = router;
+module.exports = router;
