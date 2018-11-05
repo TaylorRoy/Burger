@@ -1,50 +1,88 @@
-<div class="toDevourDiv">
+<div class="container">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="toDevourDiv">
 
-    <h1>Burgers to Devour</h1>
+                <h1>Burgers to Devour</h1>
 
-    <ul>
-        {{#each burger}}
-        {{#unless this.devoured}}
-        <li>
-            <p>
-                {{this.id}}. {{this.burger_name}}
+                <ul>
+                    {{#each burger}}
+                    {{#unless this.devoured}}
+                    <li>
+                        <p>
+                            {{this.id}}. {{this.burger_name}}
 
-                <button data-planid="{{this.id}}" class="devourBtn">Devour!!!</button>
-            </p>
-        </li>
-        {{/unless}}
-        {{/each}}
-    </ul>
+                            <button data-planid="{{this.id}}" class="devourBtn btn btn-success">Devour!!!</button>
+                        </p>
+                    </li>
+                    {{/unless}}
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="alreadyDevouredDiv">
+
+                <h1>Devoured Burgers</h1>
+
+                <ul>
+                    {{#each burger}}
+                    {{#if this.devoured}}
+                    <li>
+                        <p>
+                            {{this.id}}. {{this.burger_name}}
+
+                            <button data-planid="{{this.id}}" class="delete btn btn-danger">Delete</button>
+                        </p>
+                    </li>
+                    {{/if}}
+                    {{/each}}
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <label class="enterBurgerText" for="ca">
+            <h1>Enter a Burger You Want to Devour!</h1>
+        </label>
+        <input type="text" class="form-control" id="addBurger" name="name">
+    </div>
+    <div class="addBugerBtnDiv">
+        <button class="addBurgerBtn btn btn-primary" type="submit">Add Burger</button>
+    </div>
 </div>
 
-<div class="alreadyDevouredDiv">
-
-    <h1>Devoured Burgers</h1>
-
-    <ul>
-        {{#each burger}}
-        {{#if this.devoured}}
-        <li>
-            <p>
-                {{this.id}}. {{this.burger_name}}
-
-                <button data-planid="{{this.id}}" class="delete">Delete</button>
-            </p>
-        </li>
-        {{/if}}
-        {{/each}}
-    </ul>
-</div>
 
 
 
-<div class="form-group">
-    <label for="ca">Enter a Burger You Want to Devour!:</label>
-    <input type="text" id="addBurger" name="name">
-</div>
+<style>
+    .navbar {
+        background-color: black;
+        color: white;
+        font-size: 60px;
+    }
 
+    .titleDiv {
+        width: 100%;
+        text-align: center;
+    }
 
-<button class="addBurgerBtn" type="submit">Add Burger</button>
+    .toDevourDiv {
+        border-right-width: 3px;
+        border-right-style: solid;
+    }
+
+    .enterBurgerText {
+        width: 100%;
+        text-align: center;
+    }
+
+    .addBugerBtnDiv {
+        width: 100%;
+        text-align: center;
+    }
+</style>
 
 <script>
     $(document).on("click", ".addBurgerBtn", function (event) {
@@ -86,7 +124,7 @@
         $.ajax("/api/burger/" + id, {
             type: "PUT",
             data: newDevouredValue
-        }).then(function(results){
+        }).then(function (results) {
             location.reload();
         })
     });
