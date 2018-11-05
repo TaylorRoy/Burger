@@ -4,6 +4,7 @@
 
     <ul>
         {{#each burger}}
+        {{#unless this.devoured}}
         <li>
             <p>
                 {{this.id}}. {{this.burger_name}}
@@ -11,16 +12,18 @@
                 <button data-planid="{{this.id}}" class="devourBtn">Devour!!!</button>
             </p>
         </li>
+        {{/unless}}
         {{/each}}
     </ul>
 </div>
 
-<div class="toDevourDiv">
+<div class="alreadyDevouredDiv">
 
     <h1>Devoured Burgers</h1>
 
     <ul>
-        {{#each eaten}}
+        {{#each burger}}
+        {{#if this.devoured}}
         <li>
             <p>
                 {{this.id}}. {{this.burger_name}}
@@ -28,9 +31,12 @@
                 <button data-planid="{{this.id}}" class="delete">Delete</button>
             </p>
         </li>
+        {{/if}}
         {{/each}}
     </ul>
 </div>
+
+
 
 <div class="form-group">
     <label for="ca">Enter a Burger You Want to Devour!:</label>
@@ -40,7 +46,7 @@
 
 <button class="addBurgerBtn" type="submit">Add Burger</button>
 
-<script type="text/javascript">
+<script>
     $(document).on("click", ".addBurgerBtn", function (event) {
         // Make sure to preventDefault on a submit event.
         alert("clicked");
@@ -80,13 +86,9 @@
         $.ajax("/api/burger/" + id, {
             type: "PUT",
             data: newDevouredValue
-        }).then(
-      function() {
-        console.log("changed devoured to", newDevoured);
-        // Reload the page to get the updated list
-        location.reload();
-      }
-    );
+        }).then(function(results){
+            location.reload();
+        })
     });
 
 </script>

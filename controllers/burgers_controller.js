@@ -10,12 +10,12 @@ router.get("/", function (req, res) {
     res.render("index", { burger: data });
   });
 });
-//gets devoured(value 1)
-router.get("/", function (req, res) {
-  burger.selectDevoured(function (data) {
-    res.render("index", { eaten: data });
-  });
-});
+// //gets devoured(value 1)
+// router.get("/", function (req, res) {
+//   burger.selectDevoured(function (data) {
+//     res.render("index", { burger: data });
+
+//
 //adds burgers to undevoured list
 router.post("/api/burger", function (req, res) {
   console.log("body", req.body);
@@ -28,16 +28,17 @@ router.post("/api/burger", function (req, res) {
 });
 
 router.put("/api/burger/:id", function (req, res) {
-  var condition = req.params.id;
+  var id = req.params.id;
 
-  console.log("condition is here", condition);
+  console.log("id is here", id);
   console.log("devoured", req.body.devoured);
+  // console.log("put response",res);
   burger.updateOne(
     {
       devoured: req.body.devoured
     },
-    condition, function (result) {
-
+    id, function (result) {
+      console.log("put result", result);
       if (result.changedRows === 0) {
         // If no rows were changed, then the ID must not exist, so 404
         return res.status(404).end();
