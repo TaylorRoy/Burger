@@ -1,4 +1,16 @@
 <div class="container">
+
+    <div class="form-group">
+        <label class="enterBurgerText" for="ca">
+            <h1>Enter a Burger You Want to Devour!</h1>
+        </label>
+        <input type="text" class="form-control" id="addBurger" name="name" placeholder="Type dream burger here.">
+    </div>
+    <div class="addBugerBtnDiv">
+        <button class="addBurgerBtn btn btn-primary" type="submit">Add Burger</button>
+    </div>
+
+
     <div class="row">
         <div class="col-sm-6">
             <div class="toDevourDiv">
@@ -40,19 +52,7 @@
             </div>
         </div>
     </div>
-
-    <div class="form-group">
-        <label class="enterBurgerText" for="ca">
-            <h1>Enter a Burger You Want to Devour!</h1>
-        </label>
-        <input type="text" class="form-control" id="addBurger" name="name" placeholder="Type dream burger here.">
-    </div>
-    <div class="addBugerBtnDiv">
-        <button class="addBurgerBtn btn btn-primary" type="submit">Add Burger</button>
-    </div>
 </div>
-
-
 
 
 <style>
@@ -141,7 +141,7 @@
             type: "DELETE"
         }).then(function (result) {
             location.reload();
-        })
+        }).catch(error => console.log(error));
     })
 
 </script>

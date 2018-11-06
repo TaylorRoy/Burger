@@ -27,7 +27,7 @@ router.put("/api/burger/:id", function (req, res) {
       devoured: req.body.devoured
     },
     id, function (result) {
-      if (result.changedRows === 0) {
+      if (result.affectedRows === 0) {
         return res.status(404).end();
       }
       res.status(200).end();
@@ -39,7 +39,7 @@ router.delete("/api/burger/:id", function(req,res){
   var id = req.params.id;
   burger.deleteOne(
     id, function(result) {
-      if (result.changedRows === 0) {
+      if (result.affectedRows === 0) {
         return res.status(404).end();
       }
       res.status(200).end();
